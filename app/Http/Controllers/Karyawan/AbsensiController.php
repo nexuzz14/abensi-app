@@ -40,10 +40,8 @@ class AbsensiController extends Controller
         $mode = 'clock-in';
         if ($absensiHariIni && in_array($absensiHariIni->status_kehadiran, ['cuti', 'izin', 'sakit'])) {
             $mode = 'selesai';
-        } elseif ($absensiHariIni && $absensiHariIni->jam_masuk && !$absensiHariIni->jam_keluar) {
-            $mode = 'clock-out';
-        } elseif ($absensiHariIni && $absensiHariIni->jam_masuk && $absensiHariIni->jam_keluar) {
-            $mode = 'selesai'; // Sudah clock-in dan clock-out
+        } elseif ($absensiHariIni && $absensiHariIni->jam_masuk) {
+            $mode = 'clock-out'; // Tetap di mode clock-out agar bisa update jam check-out
         }
 
         $shiftHariIni = $karyawan->getShiftAktif(today());
