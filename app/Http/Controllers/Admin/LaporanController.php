@@ -28,14 +28,7 @@ class LaporanController extends Controller
     /**
      * Tampilkan halaman laporan dengan filter dan tabel data
      */
-    /**
-     * Hapus semua data absensi (Reset)
-     */
-    public function reset(): RedirectResponse
-    {
-        Absensi::truncate();
-        return redirect()->back()->with('success', 'Semua data absensi berhasil dihapus (Reset).');
-    }
+
 
     public function index(Request $request): View
     {

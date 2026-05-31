@@ -38,7 +38,9 @@ class AbsensiController extends Controller
 
         // Tentukan mode: clock-in atau clock-out
         $mode = 'clock-in';
-        if ($absensiHariIni && $absensiHariIni->jam_masuk && !$absensiHariIni->jam_keluar) {
+        if ($absensiHariIni && in_array($absensiHariIni->status_kehadiran, ['cuti', 'izin', 'sakit'])) {
+            $mode = 'selesai';
+        } elseif ($absensiHariIni && $absensiHariIni->jam_masuk && !$absensiHariIni->jam_keluar) {
             $mode = 'clock-out';
         } elseif ($absensiHariIni && $absensiHariIni->jam_masuk && $absensiHariIni->jam_keluar) {
             $mode = 'selesai'; // Sudah clock-in dan clock-out

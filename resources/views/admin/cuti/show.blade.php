@@ -100,13 +100,12 @@
     </div>
 
     {{-- Approve / Reject Forms --}}
-    @if($cuti->status === 'pending')
     <div class="col-12 col-lg-6">
         {{-- Approve --}}
         <div class="content-card mb-4" style="border:2px solid #bbf7d0">
             <div class="content-card-header" style="background:#f0fdf4">
                 <h2 class="content-card-title text-success">
-                    <i class="bi bi-check-circle-fill me-2"></i>Setujui Cuti
+                    <i class="bi bi-check-circle-fill me-2"></i>Setujui / Update Cuti
                 </h2>
             </div>
             <div class="content-card-body">
@@ -115,11 +114,11 @@
                     <div class="mb-3">
                         <label class="form-label">Catatan (opsional)</label>
                         <textarea name="catatan_admin" rows="3" class="form-control"
-                                  placeholder="Tambahkan catatan untuk karyawan..."></textarea>
+                                  placeholder="Tambahkan catatan untuk karyawan...">{{ $cuti->catatan_admin }}</textarea>
                     </div>
                     <button type="submit" class="btn btn-success fw-bold w-100"
-                            onclick="return confirm('Setujui pengajuan cuti ini? Absensi akan otomatis diupdate.')">
-                        <i class="bi bi-check-lg me-2"></i> Approve Cuti
+                            onclick="return confirm('Update status menjadi Disetujui?')">
+                        <i class="bi bi-check-lg me-2"></i> Setujui Cuti
                     </button>
                 </form>
             </div>
@@ -138,16 +137,15 @@
                     <div class="mb-3">
                         <label class="form-label">Alasan Penolakan <span class="text-muted small">(dianjurkan)</span></label>
                         <textarea name="catatan_admin" rows="3" class="form-control"
-                                  placeholder="Jelaskan alasan penolakan cuti..."></textarea>
+                                  placeholder="Jelaskan alasan penolakan cuti...">{{ $cuti->catatan_admin }}</textarea>
                     </div>
                     <button type="submit" class="btn btn-danger fw-bold w-100"
-                            onclick="return confirm('Tolak pengajuan cuti ini?')">
+                            onclick="return confirm('Update status menjadi Ditolak?')">
                         <i class="bi bi-x-lg me-2"></i> Tolak Cuti
                     </button>
                 </form>
             </div>
         </div>
     </div>
-    @endif
 </div>
 @endsection

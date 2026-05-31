@@ -49,12 +49,7 @@
     <div class="content-card-header">
         <h2 class="content-card-title"><i class="bi bi-funnel text-primary me-2"></i>Filter Laporan</h2>
         <div class="d-flex gap-2">
-            <form action="{{ route('admin.laporan.reset') }}" method="POST" onsubmit="return confirm('Yakin ingin mereset/menghapus SELURUH data absensi karyawan? Tindakan ini tidak dapat dibatalkan!');">
-                @csrf
-                <button type="submit" class="btn btn-sm btn-dark fw-bold" style="border-radius:8px">
-                    <i class="bi bi-trash3 me-1"></i> Reset Data
-                </button>
-            </form>
+
             <a href="{{ route('admin.laporan.pdf', request()->all()) }}" target="_blank"
                class="btn btn-sm btn-danger fw-bold" style="border-radius:8px">
                 <i class="bi bi-file-earmark-pdf me-1"></i> PDF
@@ -232,7 +227,7 @@
         const select = document.getElementById('statusSelect');
         
         // Setup action URL
-        form.action = `/laporan/absensi/${id}/status`;
+        form.action = `/admin/laporan/absensi/${id}/status`;
         
         // Set selected option
         select.value = currentStatus;

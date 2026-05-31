@@ -64,11 +64,7 @@ class CutiController extends Controller
      */
     public function approve(ApproveCutiRequest $request, Cuti $cuti): RedirectResponse
     {
-        // Pastikan cuti masih pending sebelum diproses
-        if ($cuti->status !== 'pending') {
-            return redirect()->back()
-                ->with('error', 'Pengajuan cuti ini sudah diproses sebelumnya.');
-        }
+        // Cuti bisa diupdate kapan saja
 
         DB::transaction(function () use ($request, $cuti) {
             // 1. Update status cuti menjadi approved
@@ -112,10 +108,7 @@ class CutiController extends Controller
      */
     public function reject(ApproveCutiRequest $request, Cuti $cuti): RedirectResponse
     {
-        if ($cuti->status !== 'pending') {
-            return redirect()->back()
-                ->with('error', 'Pengajuan cuti ini sudah diproses sebelumnya.');
-        }
+        // Cuti bisa diupdate kapan saja
 
         $cuti->update([
             'status'           => 'rejected',

@@ -118,7 +118,7 @@ Route::prefix('admin')
     // LAPORAN ABSENSI
     // ========================
     Route::get('/laporan', [Admin\LaporanController::class, 'index'])->name('laporan.index');
-    Route::post('/laporan/reset', [Admin\LaporanController::class, 'reset'])->name('laporan.reset');
+
     Route::put('/laporan/absensi/{absensi}/status', [Admin\LaporanController::class, 'updateStatus'])->name('laporan.update-status');
     Route::get('/laporan/export-pdf', [Admin\LaporanController::class, 'exportPdf'])->name('laporan.pdf');
     Route::get('/laporan/export-excel', [Admin\LaporanController::class, 'exportExcel'])->name('laporan.excel');

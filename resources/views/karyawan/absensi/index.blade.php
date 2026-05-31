@@ -349,10 +349,14 @@
                     <i class="bi bi-check-lg"></i>
                 </div>
                 <h2 style="font-size:1.25rem;font-weight:800;color:#1e293b;margin-bottom:0.5rem">
-                    Absensi Hari Ini Selesai!
+                    Absensi tgl {{ \Carbon\Carbon::now()->translatedFormat('d M Y') }} selesai!
                 </h2>
                 <p class="text-muted" style="font-size:0.875rem">
-                    Anda sudah check-in dan check-out hari ini.
+                    @if($absensiHariIni && in_array($absensiHariIni->status_kehadiran, ['cuti', 'izin', 'sakit']))
+                        Hari ini Anda berstatus {{ ucfirst($absensiHariIni->status_kehadiran) }}.
+                    @else
+                        Anda sudah check-in dan check-out hari ini.
+                    @endif
                 </p>
                 <div class="row g-3 mt-2">
                     <div class="col-6">
