@@ -232,8 +232,17 @@
         padding: 0.875rem;
         display: none;
     }
-
     .match-result.show { display: block; }
+
+    /* Match fail card */
+    .match-fail {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 10px;
+        padding: 0.875rem;
+        display: none;
+    }
+    .match-fail.show { display: block; }
 
     /* Status item dalam panel */
     .status-item {
@@ -477,6 +486,19 @@
                     </div>
                     <div class="ms-auto">
                         <span class="badge" style="background:#dcfce7;color:#166534;font-size:0.7rem" id="matchScore">—</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Match Fail --}}
+            <div class="match-fail mt-2" id="matchFail">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:48px;height:48px;background:linear-gradient(135deg,#ef4444,#b91c1c);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.25rem;flex-shrink:0">
+                        <i class="bi bi-person-x-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight:700;color:#b91c1c;font-size:0.9rem">Akses Ditolak!</div>
+                        <div style="font-size:0.75rem;color:#ef4444">Wajah tidak sesuai dengan data Anda.</div>
                     </div>
                 </div>
             </div>
@@ -1014,6 +1036,7 @@ async function startDetectionLoop() {
                     currentMatchScore = (1 - match.distance).toFixed(2);
 
                     // Update UI match result
+                    document.getElementById('matchFail').classList.remove('show');
                     document.getElementById('matchResult').classList.add('show');
                     document.getElementById('matchName').textContent = currentMatchName;
                     document.getElementById('matchInfo').textContent = karyawan?.jabatan || '';
@@ -1024,8 +1047,9 @@ async function startDetectionLoop() {
 
                     updateBadge('matched', `✓ ${currentMatchName}`);
                 } else {
-                    updateBadge('undetected', '❓ Wajah tidak dikenali');
                     document.getElementById('matchResult').classList.remove('show');
+                    document.getElementById('matchFail').classList.add('show');
+                    updateBadge('undetected', '❓ Wajah tidak dikenali');
                 }
             } else if (labeledFaceDescriptors.length === 0) {
                 updateBadge('detected', '✓ Wajah terdeteksi (Data kosong)');
