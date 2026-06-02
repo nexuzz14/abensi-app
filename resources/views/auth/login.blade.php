@@ -294,11 +294,14 @@
                     @enderror
                 </div>
 
-                <!-- Remember Me -->
-                <div class="remember-row">
-                    <div class="form-check form-check-custom">
+                <!-- Remember Me & Forgot Password -->
+                <div class="remember-row" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="form-check form-check-custom mb-0">
                         <input type="checkbox" id="remember" name="remember" class="form-check-input">
                         <label for="remember" class="form-check-label ms-1">Ingat saya</label>
+                    </div>
+                    <div id="forgotAdminWrapper" style="display: none;">
+                        <a href="#" onclick="alert('Silakan hubungi tim IT / Developer untuk melakukan reset kata sandi Admin.'); return false;" style="color: #d4922f; font-size: 0.8rem; text-decoration: none; font-weight: 600;">Lupa Sandi Admin?</a>
                     </div>
                 </div>
 
@@ -334,6 +337,17 @@
             input.type = isPass ? 'text' : 'password';
             icon.className = isPass ? 'bi bi-eye-slash' : 'bi bi-eye';
         }
+
+        // Tampilkan link Lupa Sandi Admin HANYA jika mengetik Email atau 'admin'
+        document.getElementById('identifier').addEventListener('input', function() {
+            const val = this.value.toLowerCase();
+            const wrapper = document.getElementById('forgotAdminWrapper');
+            if (val.includes('@') || val === 'admin') {
+                wrapper.style.display = 'block';
+            } else {
+                wrapper.style.display = 'none';
+            }
+        });
 
         // Loading state saat form disubmit
         document.getElementById('loginForm').addEventListener('submit', function() {

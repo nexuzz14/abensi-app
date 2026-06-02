@@ -110,12 +110,33 @@ class CutiController extends Controller
     {
         // Cuti bisa diupdate kapan saja
 
-        $cuti->update([
-            'status'           => 'rejected',
-            'approved_by'      => Auth::id(),
-            'tanggal_diproses' => now(),
-            'catatan_admin'    => $request->catatan_admin,
-        ]);
+        DB::transaction(function () use ($request, $cuti) {
+            $cuti->update([
+                'status'           => 'rejected',
+                'approved_by'      => Auth::id(),
+                'tanggal_diproses' => now(),
+                'catatan_admin'    => $request->catatan_admin,
+            ]);
+
+            // Kembalikan status absensi menjadi hadir jika dia sudah absen masuk
+            $tanggal = $cuti->tanggal_mulai->copy();
+            
+            while ($tanggal->lte($cuti->tanggal_selesai)) {
+                $absensi = Absensi::where('karyawan_id', $cuti->karyawan_id)
+                    ->where('tanggal', $tanggal->toDateString())
+                    ->first();
+
+                if ($absensi) {
+                    if ($absensi->jam_masuk) {
+                        $absensi->update(['status_kehadiran' => 'hadir']);
+                    } else {
+                        // Jika belum absen masuk (misal di-approve duluan lalu di-reject), hapus record cuti
+                        $absensi->delete();
+                    }
+                }
+                $tanggal->addDay();
+            }
+        });
 
         return redirect()->route('admin.cuti.index')
             ->with('success', "Pengajuan cuti {$cuti->karyawan->nama_lengkap} telah ditolak.");
